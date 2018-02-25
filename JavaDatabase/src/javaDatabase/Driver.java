@@ -2,31 +2,73 @@ package javaDatabase;
 
 import java.util.Scanner;
 import java.sql.*;
-public class Driver {
 
+public class Driver {
+	
+	/* Program runs infinitely when true */
+	static boolean run = true;
+	
+	/**
+	 * Insertion point for the software.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
+		// used to read the user input
 		Scanner scan = new Scanner(System.in);
+		while (run)
+			run(scan);
+		scan.close();
+		System.exit(0);
+	}
+
+	/**
+	 * Prompts for the users input and navigates them to the 
+	 * correct section of code to execute.
+	 * 1 - Enter new student into database
+	 * 2 - Dump all existing database records
+	 * 3 - Exit the application
+	 * 
+	 * @param scan
+	 */
+	private static void run(Scanner scan) {
 		int path;
 		System.out.println("\n== STUDENT DATABASE ==");
 		System.out.println("\nWhat would you like to do today?");
 		System.out.println("1 - Enter new student");
 		System.out.println("2 - Dump all existing records");
+		System.out.println("3 - Exit\n");
 		path = scan.nextInt();
 		if (path == 1)
-			newEntry();
+			newEntry(scan);
 		if (path == 2)
 			dumpDatabase();
-
-		scan.close(); // no memory leaks here
+		if (path == 3)
+			exit();
 	}
 
+	/**
+	 * Completely unneeded. 
+	 * I'm just really bored at the moment.
+	 */
+	private static void exit() {
+		run = false;
+		System.out.println("\nDestroying any connections left......");
+		System.out.println("\nIt's so lonely now");
+		System.out.println("\nWell, hopefully no memory leaks exists otherwise I'll lose my job again :/");
+		System.out.println("\nEither way...have some waffles! (>-_-)>###");
+	}
+
+	/**
+	 * Used to dump the entirety of the database into the console.
+	 */
 	private static void dumpDatabase() {
 
 		System.out.println("\n\nConnecting to database...\n\n");
 		try {
 
 			// Create connection to database
-			Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?autoReconnect=true&useSSL=false", "root", "fuck off");
+			Connection myConn = connect();
 
 			// Create a statement
 			Statement myStmt = myConn.createStatement();
@@ -46,17 +88,19 @@ public class Driver {
 						myRs.getString("year")
 						);
 			}
+			System.out.println("\n\nClosing database connection...\n\n");
+			myConn.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Allows the user to create a new Student object
 	 * and then add it to the database.
 	 */
-	private static void newEntry() {
-		Scanner scan = new Scanner(System.in);
+	private static void newEntry(Scanner scan) {
 		Student new_student = new Student();
 
 		System.out.println("Student ID number: ");
@@ -71,15 +115,43 @@ public class Driver {
 		new_student.setGPA(scan.nextDouble());
 		System.out.println("Class standing: ");
 		new_student.setYear(scan.next());
-		scan.close();
-		
-		
+
+		// Query to insert student
+		String query = "INSERT INTO students (id, last_name, first_name, email, GPA, year)" +
+				"VALUES (?,?,?,?,?,?)";
 
 		System.out.println("\n\nConnecting to database...\n\n");
-		Connection myConn = connect();
 
+		try {
+			// Connect to database
+			Connection myConn = connect();
+			
+			// Prepare the query
+			PreparedStatement  preparedStmt = myConn.prepareStatement(query);
+			preparedStmt.setInt	(1, new_student.getID());
+			preparedStmt.setString(2, new_student.getLastName());
+			preparedStmt.setString(3, new_student.getFirstName());
+			preparedStmt.setString(4, new_student.getEmail());
+			preparedStmt.setDouble(5, new_student.getGPA());
+			preparedStmt.setString(6, new_student.getYear());
+			
+			// Execute the query
+			preparedStmt.execute();
+			
+			System.out.println("\n\nClosing database connection...\n\n");
+			myConn.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * Creates a connection between this application and the locally hosted 
+	 * MySQL database.
+	 * 
+	 * @return myConn - connection to the database
+	 */
 	private static Connection connect() {
 		try {
 			// Create connection to database
@@ -92,13 +164,3 @@ public class Driver {
 		return null;
 	}
 }
-
-
-
-
-	/*
-INSERT INTO sys.employees (id, last_name, first_name, email)
-VALUES (0002, "Obama", "Barack", "oBOMBya@me.com");
-
-SELECT * FROM sys.employees
-	 */
