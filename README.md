@@ -7,5 +7,6 @@ Highlights the simplistic nature of JDBC when it comes to storing an application
   <li>Insert a new student to the database.</li>
   <li>Dump the entire contents of the database to your console.</li>
 </ul>
+<br>
 (>^_^)>###
 
