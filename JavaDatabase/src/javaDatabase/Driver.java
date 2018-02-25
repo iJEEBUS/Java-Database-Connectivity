@@ -5,14 +5,14 @@ import java.sql.*;
 
 public class Driver {
 	
-	/* Program runs infinitely when true */
+	/** Program runs infinitely when true **/
 	static boolean run = true;
 	
-	/**
+	/*******************************************************************************************************
 	 * Insertion point for the software.
 	 * 
 	 * @param args
-	 */
+	 ******************************************************************************************************/
 	public static void main(String[] args) {
 		// used to read the user input
 		Scanner scan = new Scanner(System.in);
@@ -22,7 +22,7 @@ public class Driver {
 		System.exit(0);
 	}
 
-	/**
+	/*******************************************************************************************************
 	 * Prompts for the users input and navigates them to the 
 	 * correct section of code to execute.
 	 * 1 - Enter new student into database
@@ -30,7 +30,7 @@ public class Driver {
 	 * 3 - Exit the application
 	 * 
 	 * @param scan
-	 */
+	 ******************************************************************************************************/
 	private static void run(Scanner scan) {
 		int path;
 		System.out.println("\n== STUDENT DATABASE ==");
@@ -47,26 +47,24 @@ public class Driver {
 			exit();
 	}
 
-	/**
-	 * Completely unneeded. 
-	 * I'm just really bored at the moment.
-	 */
+	/*******************************************************************************************************
+	 * Sets the global run variable to false, causing the application to exit.
+	 ******************************************************************************************************/
 	private static void exit() {
 		run = false;
-		System.out.println("\nDestroying any connections left......");
-		System.out.println("\nIt's so lonely now");
-		System.out.println("\nWell, hopefully no memory leaks exists otherwise I'll lose my job again :/");
-		System.out.println("\nEither way...have some waffles! (>-_-)>###");
+		System.out.println("\nDestroying any connections left......(╯°□°）╯︵ ┻━┻");
+		System.out.println("\nIt's so lonely now......੨( ･᷄ ︵･᷅ )ｼ");
+		System.out.println("\nAtleast no memory leaks exist......(๑˃̵ᴗ˂̵)و");
+		System.out.println("\nEither way..have some waffles......(>°ᴗ°)>###");
 	}
 
-	/**
+	/*******************************************************************************************************
 	 * Used to dump the entirety of the database into the console.
-	 */
+	 ******************************************************************************************************/
 	private static void dumpDatabase() {
 
 		System.out.println("\n\nConnecting to database...\n\n");
 		try {
-
 			// Create connection to database
 			Connection myConn = connect();
 
@@ -96,10 +94,10 @@ public class Driver {
 		}
 	}
 	
-	/**
+	/*******************************************************************************************************
 	 * Allows the user to create a new Student object
 	 * and then add it to the database.
-	 */
+	 ******************************************************************************************************/
 	private static void newEntry(Scanner scan) {
 		Student new_student = new Student();
 
@@ -146,16 +144,19 @@ public class Driver {
 		}
 	}
 
-	/**
+	/*******************************************************************************************************
 	 * Creates a connection between this application and the locally hosted 
 	 * MySQL database.
 	 * 
 	 * @return myConn - connection to the database
-	 */
+	 ******************************************************************************************************/
 	private static Connection connect() {
 		try {
+			String url = "jdbc:mysql://localhost:3306/demo?autoReconnect=true&useSSL=false";
+			String user = "root";
+			String password = "fuck off";
 			// Create connection to database
-			Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?autoReconnect=true&useSSL=false", "root", "fuck off");		
+			Connection myConn = DriverManager.getConnection(url, user, password);		
 			return myConn;
 		}
 		catch (Exception e) {
