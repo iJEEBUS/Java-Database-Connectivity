@@ -9,4 +9,3 @@ Highlights the simplistic nature of JDBC when it comes to storing an application
 </ul>
 <br>
 (>^_^)>###
-
