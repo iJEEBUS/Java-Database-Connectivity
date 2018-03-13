@@ -154,7 +154,7 @@ public class Driver {
 		try {
 			String url = "jdbc:mysql://localhost:3306/demo?autoReconnect=true&useSSL=false";
 			String user = "root";
-			String password = "fuck off";
+			String password = "fuck off"; // password removed since I actually use this database
 			// Create connection to database
 			Connection myConn = DriverManager.getConnection(url, user, password);		
 			return myConn;
