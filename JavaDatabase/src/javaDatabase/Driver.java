@@ -3,6 +3,13 @@ package javaDatabase;
 import java.util.Scanner;
 import java.sql.*;
 
+/*******************************************************************************************************
+ * This is is the main class of my example connection between a Java application and a mySQL database.
+ * Handles the logic of the program along with the user input. 
+ * 
+ * @author Ronald Rounsifer
+ * @version 1.2
+ *****************************************************************************************************/
 public class Driver {
 	
 	/** Program runs infinitely when true **/
@@ -154,7 +161,7 @@ public class Driver {
 		try {
 			String url = "jdbc:mysql://localhost:3306/demo?autoReconnect=true&useSSL=false";
 			String user = "root";
-			String password = "fuck off"; // password removed since I actually use this database
+			String password = ""; // password removed since I actually use this database
 			// Create connection to database
 			Connection myConn = DriverManager.getConnection(url, user, password);		
 			return myConn;

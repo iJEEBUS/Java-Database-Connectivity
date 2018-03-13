@@ -1,5 +1,11 @@
 package javaDatabase;
 
+/*******************************************************************************************************
+ * This is the Java implementation of the Student table that is located in the mySQL database.
+ * 
+ * @author Ronald Rounsifer
+ * @version 1.2
+ *****************************************************************************************************/
 public class Student {
 	
 	/** Students name (first and last), email and current year **/
